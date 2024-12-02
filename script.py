@@ -27,14 +27,19 @@ def get_recipients(filename="recipients.txt"):
                 last_sent_date = datetime.strptime(last_sent, "%Y-%m-%d")
                 recipients.append((email, last_sent_date))
     except FileNotFoundError:
-        pass
+        print(f"File {filename} not found.")
+    except Exception as e:
+        print(f"Error reading {filename}: {e}")
     return recipients
 
 # Write recipients and their last sent date back to the file
 def update_recipients(recipients, filename="recipients.txt"):
-    with open(filename, "w") as f:
-        for email, last_sent in recipients:
-            f.write(f"{email},{last_sent.strftime('%Y-%m-%d')}\n")
+    try:
+        with open(filename, "w") as f:
+            for email, last_sent in recipients:
+                f.write(f"{email},{last_sent.strftime('%Y-%m-%d')}\n")
+    except Exception as e:
+        print(f"Error saving recipients: {e}")
 
 # Check if the recipient needs an email
 def should_send_email(last_sent_date):
@@ -53,6 +58,7 @@ def send_email(recipient, user_url):
         message.attach(MIMEText(body, "plain"))
 
         # Set up the SMTP server
+        print(f"Connecting to SMTP server...")
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()  # Start TLS encryption
         server.login(EMAIL_USER, EMAIL_PASSWORD)
@@ -78,7 +84,6 @@ def fetch_search_results(search_url):
             if 'products' in data and len(data['products']) > 0:
                 return True
             else:
-                print("No products found in the search results.")
                 return False
         else:
             print(f"Error fetching data: {response.status_code}")
