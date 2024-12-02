@@ -2,7 +2,6 @@ Script which would send email to the recipient if the searched product is on air
 
 Todo
 
-- Deploy on Aws free tier
 - create a db interface
 - create a search interface for multiple json output
 - add tests
