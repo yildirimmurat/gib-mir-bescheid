@@ -25,8 +25,8 @@ jobs:
 
     - name: Deploy to EC2 using rsync
       run: |
-        rsync -avz -e "ssh -i /home/runner/.ssh/deploy_key" ./ ec2-user@13.60.6.61:/home/ec2-user/gib-mir-bescheid
+        rsync -avz -e "ssh -i /home/runner/.ssh/deploy_key" ./ ec2-user@13.60.6.61:/home/ec2-user
       env:
         EC2_USER: ec2-user
         EC2_HOST: ${{ secrets.EC2_PUBLIC_IP }}
-        REMOTE_PATH: /home/ec2-user/gib-mir-bescheid
+        REMOTE_PATH: /home/ec2-user
